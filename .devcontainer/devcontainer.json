@@ -1,0 +1,72 @@
+{
+  "name": "Dockerfile"
+  , "context": ".."
+  , "dockerFile": "./Dockerfile"
+  //   "postCreateCommand": "chmod +x ./.devcontainer/setup.sh && sh ./.devcontainer/setup.sh",
+  , "runArgs": [
+    // if you have a GPU, you can use it inside the container
+    // "--gpus=all",
+    // speeds up pytorch data loading
+    "--ipc=host"
+  ]
+  // , "workspaceFolder": "/workspace"
+  , "mounts": [
+    // important: see respective sections in setup.sh
+    // uncomment if you want to use your local aws credentials
+    // "source=${env:HOME}${env:USERPROFILE}/.aws,target=/root/.aws,type=bind",
+    // uncomment if you want to use the host docker socket inside the container
+    //"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ]
+  , "updateRemoteUserUID": true
+	, "remoteUser": "${localEnv:USER}"
+  , "customizations": {
+    "vscode": {
+      "extensions": [
+        // python language support
+        "ms-python.python"
+        , "ms-python.vscode-pylance"
+        , "ms-python.vscode-python-envs"
+        // jupyter
+        , "ms-toolsai.jupyter"
+        , "ms-toolsai.vscode-jupyter-cell-tags"
+        , "ms-toolsai.jupyter-renderers"
+        , "ms-toolsai.vscode-jupyter-slideshow"
+        // autocomplete filenames
+        , "christian-kohler.path-intellisense"
+        // gemini code assist
+        , "google.geminicodeassist"
+        // yaml language support
+        , "redhat.vscode-yaml"
+        , "VisualStudioExptTeam.vscodeintellicode"
+        , "johnpapa.vscode-peacock"
+        , "gruntfuggly.todo-tree"
+        , "vscode-icons-team.vscode-icons"
+      ]
+      , "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": { "zsh": { "path": "/bin/zsh", "overrideName": true} }
+      }
+    }
+  }
+  , "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true
+			, "installOhMyZsh": true
+			, "installOhMyZshConfig": true
+			, "configureZshAsDefaultShell": true
+			, "username": "${localEnv:USER}"
+			, "upgradePackages": false	
+    }
+    , "ghcr.io/devcontainers-extra/features/zsh-plugins:0": {
+			"plugins": "zsh-autosuggestions fzf-tab"
+			, "omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions.git https://github.com/Aloxaf/fzf-tab.git"
+      , "username": "${localEnv:USER}"
+		}
+    , "ghcr.io/devcontainers-extra/features/hatch:2": {
+        "version": "1.15.1"
+    }
+    , "ghcr.io/devcontainers-extra/features/apt-get-packages:1": {
+			  "packages": "make fzf neovim"
+		}
+  }
+}

@@ -1,0 +1,94 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hull_tactical"
+dynamic = ["version"]
+description = "Hull Tactical - Market Prediction Kaggel Competition"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "jamichel" },
+]
+
+dependencies = [
+  "pandas[pyarrow]",
+  "polars",
+  "scipy",
+  "py-research",
+  "statsmodels",
+  "scikit-learn",
+  "ydata-profiling",
+]
+
+[project.optional-dependencies]
+notebooks = [
+  "ydata-profiling[notebook]",
+  "jupyter-contrib-nbextensions",
+]
+viz = [
+  "dtale",
+  "seaborn",
+]
+dev-utils = [
+  "kaggle",
+]
+
+[project.urls]
+Documentation = "https://github.com/amichel/hatch-project#readme"
+Issues = "https://github.com/amichel/hatch-project/issues"
+Source = "https://github.com/amichel/hatch-project"
+
+[tool.hatch.build]
+include = [
+    "src/hull_tactical"
+]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/hull_tactical/_version.py"
+
+[tool.hatch.envs.hull-tactical-dev]
+extra-dependencies = [
+ "pre-commit",
+]
+features = [
+  "viz",
+  "dev-utils",
+  "notebooks",
+]
+
+[tool.hatch.envs.default]
+installer = "uv"
+
+[tool.coverage.run]
+source_pkgs = ["src/hull_tactical", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/hull_tactical/__version__.py",
+]
+
+[tool.coverage.paths]
+hull_tactical = ["src/hull_tactical"]
+tests = ["tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.ruff]
+extend-exclude = [
+  "*.txt",
+  "*.md",
+  "*.rst",
+  "*.ipynb",
+]
