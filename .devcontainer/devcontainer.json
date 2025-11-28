@@ -37,14 +37,19 @@
         , "google.geminicodeassist"
         // yaml language support
         , "redhat.vscode-yaml"
-        , "VisualStudioExptTeam.vscodeintellicode"
         , "johnpapa.vscode-peacock"
         , "gruntfuggly.todo-tree"
         , "vscode-icons-team.vscode-icons"
       ]
       , "settings": {
-        "terminal.integrated.defaultProfile.linux": "zsh",
-        "terminal.integrated.profiles.linux": { "zsh": { "path": "/bin/zsh", "overrideName": true} }
+        "terminal.integrated.defaultProfile.linux": "zsh"
+        , "terminal.integrated.profiles.linux": { "zsh": { "path": "/bin/zsh", "overrideName": true} }
+        , "workbench.iconTheme": "vscode-icons"
+        , "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true
+        , "todo-tree.tree.hideIconsWhenGroupedByTag": true
+        , "terminal.integrated.copyOnSelection": true
+        , "terminal.integrated.cursorBlinking": true
+        , "python.languageServer": "Pylance"
       }
     }
   }
@@ -62,9 +67,6 @@
 			, "omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions.git https://github.com/Aloxaf/fzf-tab.git"
       , "username": "${localEnv:USER}"
 		}
-    , "ghcr.io/devcontainers-extra/features/hatch:2": {
-        "version": "1.15.1"
-    }
     , "ghcr.io/devcontainers-extra/features/apt-get-packages:1": {
 			  "packages": "make fzf neovim"
 		}

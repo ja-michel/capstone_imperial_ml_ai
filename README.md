@@ -1,5 +1,5 @@
-# capstone_imperial_ml_ai
-Professional Certificate in Machine Learning and Artificial Intelligence Capstone Project
+## ML Template Project
+This is a template repo with the structure and dependencies for a data science project.
 
 ## repo
 ```
@@ -39,6 +39,3 @@ Professional Certificate in Machine Learning and Artificial Intelligence Capston
     │
     └── common/        <- Scripts shared among other modules
 ```
-
-# references
-https://www.kaggle.com/competitions/hull-tactical-market-prediction

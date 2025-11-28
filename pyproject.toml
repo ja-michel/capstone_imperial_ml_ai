@@ -3,9 +3,9 @@ requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
-name = "hull_tactical"
+name = "ml-starter"
 dynamic = ["version"]
-description = "Hull Tactical - Market Prediction Kaggel Competition"
+description = "ML Starter Project"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
@@ -18,64 +18,46 @@ dependencies = [
   "pandas[pyarrow]",
   "polars",
   "scipy",
-  "py-research",
   "statsmodels",
   "scikit-learn",
-  "ydata-profiling",
+  "ydata-profiling[notebook]",
+  "dtale",
+  "seaborn",
+  "jupyter-contrib-nbextensions",
 ]
 
 [project.optional-dependencies]
-notebooks = [
-  "ydata-profiling[notebook]",
-  "jupyter-contrib-nbextensions",
-]
-viz = [
-  "dtale",
-  "seaborn",
-]
-dev-utils = [
+kaggle = [
   "kaggle",
 ]
 
 [project.urls]
-Documentation = "https://github.com/amichel/hatch-project#readme"
-Issues = "https://github.com/amichel/hatch-project/issues"
-Source = "https://github.com/amichel/hatch-project"
+Documentation = "https://github.com/amichel/ml-starter#readme"
+Issues = "https://github.com/amichel/ml-starter/issues"
+Source = "https://github.com/amichel/ml-starter"
 
 [tool.hatch.build]
 include = [
-    "src/hull_tactical"
+    "src/ml"
 ]
 
 [tool.hatch.version]
 source = "vcs"
 
 [tool.hatch.build.hooks.vcs]
-version-file = "src/hull_tactical/_version.py"
+version-file = "src/ml/_version.py"
 
-[tool.hatch.envs.hull-tactical-dev]
-extra-dependencies = [
- "pre-commit",
-]
-features = [
-  "viz",
-  "dev-utils",
-  "notebooks",
-]
-
-[tool.hatch.envs.default]
-installer = "uv"
 
 [tool.coverage.run]
-source_pkgs = ["src/hull_tactical", "tests"]
+source_pkgs = ["src/ml", "tests"]
 branch = true
 parallel = true
 omit = [
-  "src/hull_tactical/__version__.py",
+  "src/ml/__version__.py",
 ]
 
 [tool.coverage.paths]
-hull_tactical = ["src/hull_tactical"]
+ml = ["src/ml"]
 tests = ["tests"]
 
 [tool.coverage.report]
