@@ -18,3 +18,21 @@ class DataLoader:
         print(f"Loaded data from {DataLoader.DATASET_PATH / function_name}")
         print(f"Input shape: {X.shape}, Output shape: {y.shape}")
         return X, y
+
+    @staticmethod
+    def load_submission_data(*, function_name: str, **kwargs):
+        submission_path = DataLoader.DATA_DIR / "submissions" / f"{function_name}.json"
+        import json
+        with open(submission_path, 'r') as f:
+            submission_data = json.load(f)
+        X = np.array(submission_data["inputs"])
+        y = np.array(submission_data["outputs"])
+        print(f"Loaded submission data from {submission_path}")
+        print(f"Submission input shape: {X.shape}, output shape: {y.shape}")
+        return X, y
+    
+    @staticmethod
+    def load_all_function_data(*, function_name: str, **kwargs):
+        X, y = DataLoader.load_data(function_name=function_name)
+        X_submission, y_submission = DataLoader.load_submission_data(function_name=function_name)
+        return np.vstack((X, X_submission)), np.hstack((y, y_submission))
