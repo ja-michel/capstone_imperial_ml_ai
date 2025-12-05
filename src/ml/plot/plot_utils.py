@@ -27,3 +27,17 @@ class PlotUtils:
         # plt.xticks(ticks=range(X.shape[1] + 1), labels=[f'X[:, {i}]' for i in range(X.shape[1])] + ['y'])
         plt.title('Box plots')
         plt.show()
+
+    @staticmethod
+    def histogram(data: np.ndarray, bins: int = 30) -> None:
+        plt.figure(figsize=(8, 6))
+        if data.ndim == 1:
+            sns.histplot(data, bins=bins, kde=True)
+            plt.xlabel('y values')
+        else:
+            for i in range(data.shape[1]):
+                sns.histplot(data[:, i], bins=bins, kde=True, label=f'X[:, {i}]', alpha=0.6)
+            plt.xlabel('X values')
+            plt.legend()
+        plt.title('Histograms')
+        plt.show()

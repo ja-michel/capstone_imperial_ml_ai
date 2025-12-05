@@ -1,7 +1,7 @@
 
 
 import numpy as np
-from scipy.stats import zscore
+from scipy.stats import zscore, pearsonr
 
 
 class TransformUtils:
@@ -29,3 +29,17 @@ class TransformUtils:
         combined = np.column_stack((X, y))
         corr_matrix = np.corrcoef(combined, rowvar=False)
         return corr_matrix
+
+    def pearsonsr(self, x: np.ndarray, y: np.ndarray, threshold: float = 0.7) -> float:
+        """Compute Pearson's r between two arrays."""
+        if x.ndim != 1 or y.ndim != 1:
+            raise ValueError("Input arrays must be one-dimensional.")
+        if x.shape[0] != y.shape[0]:
+            raise ValueError("Input arrays must have the same length.")
+
+        # Calculate Pearson's r for each pair of columns in X
+        r_01, _ = pearsonr(x, y)
+        correlated = (r_01 > threshold) or (r_01 < -threshold)
+        print(f"Pearson's r between x and y: {r_01}"
+            f" => correlated: {correlated}")
+        return r_01
