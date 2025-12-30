@@ -20,9 +20,27 @@ class TransformUtils:
         IQR = Q3 - Q1
         lower_bound = Q1 - (factor * IQR)
         upper_bound = Q3 + (factor * IQR)
-        outliers = np.where((data < lower_bound) | (data > upper_bound))[0]
+        outliers = np.where((data < lower_bound) | (data > upper_bound))
         return outliers
     
+    @staticmethod
+    def remove_outliers_zscore(data: np.ndarray, threshold: float = 3.0) -> np.ndarray:
+        """Remove outliers from the data using Z-score method."""
+        z_scores = zscore(data)
+        filtered_data = data[np.abs(z_scores) < threshold]
+        return filtered_data
+    
+    @staticmethod
+    def remove_outliers_iqr(data: np.ndarray, lower_quantile: float = 0.25, upper_quantile: float = 0.75, factor: float = 1.5) -> np.ndarray:
+        """Remove outliers from the data using the IQR method."""
+        Q1 = np.quantile(data, lower_quantile)
+        Q3 = np.quantile(data, upper_quantile)
+        IQR = Q3 - Q1
+        lower_bound = Q1 - (factor * IQR)
+        upper_bound = Q3 + (factor * IQR)
+        filtered_data = data[(data >= lower_bound) & (data <= upper_bound)]
+        return filtered_data
+
     @staticmethod
     def get_corr_matrix(X: np.ndarray, y: np.ndarray) -> np.ndarray:
         """Compute the correlation matrix between X and y."""
@@ -43,3 +61,8 @@ class TransformUtils:
         print(f"Pearson's r between x and y: {r_01}"
             f" => correlated: {correlated}")
         return r_01
+
+    @staticmethod
+    def random_sequence(length: int, low: float = 0, high: float = 1) -> np.ndarray:
+        """Generate a random sequence of given length within specified bounds."""
+        return np.random.random(length) * (high - low) + low

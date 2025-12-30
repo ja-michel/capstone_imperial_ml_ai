@@ -3,9 +3,9 @@ requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
-name = "ml-starter"
+name = "capstone_imperial_ml_ai"
 dynamic = ["version"]
-description = "ML Starter Project"
+description = "Imperial BS ML + AI Capstone Project"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
@@ -25,17 +25,13 @@ dependencies = [
   "seaborn",
   "jupyter-contrib-nbextensions",
   "ipykernel>=7.1.0",
-]
-
-[project.optional-dependencies]
-kaggle = [
-  "kaggle",
+  "httpx>=0.28.1",
 ]
 
 [project.urls]
-Documentation = "https://github.com/amichel/ml-starter#readme"
-Issues = "https://github.com/amichel/ml-starter/issues"
-Source = "https://github.com/amichel/ml-starter"
+Documentation = "https://github.com/ja-michel/capstone_imperial_ml_ai#readme"
+Issues = "https://github.com/ja-michel/capstone_imperial_ml_ai/issues"
+Source = "https://github.com/ja-michel/capstone_imperial_ml_ai"
 
 [tool.hatch.build]
 include = [
