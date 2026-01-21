@@ -24,41 +24,40 @@ In week two, I developed models for the first three functions that had a low dim
 In week three, I experimented with other techniques, such as gradient descent. This helped me frame the problem from a different perspective and tackle the other functions where data patterns are less obvious and nonlinear relationships are more likely.
 
 
-## repo
+### Repository Structure
+The repository is organized as follows:
+
 ```
 ├── data/
-│   ├── raw/           <- The original, immutable data dump
-│   ├── interim/       <- Intermediate data that has been transformed
-│   └── processed/     <- The final, canonical data sets for modeling
-│
-├── docs/              <- Any descriptors of your data or models
-│
-├── models/            <- Trained models (so you don't have to rerun them)
-│
-├── notebooks/         <- Jupyter notebooks for temporary EDA, exploration, etc.
-│
-├── reports/           <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures/       <- Generated graphics and figures to be used in reporting
-│
-├── results/           <- Saved model outputs and/or metrics
-│
-└── src/               <- Source code for use in this project
-    ├── __init__.py    <- Makes src a Python module
-    │
-    ├── data/          <- Scripts to download or generate data
-    │   └── make_dataset.py
-    │
-    ├── preprocess/    <- Scripts to turn raw data into features for modeling
-    │   └── build_features.py
-    │
-    ├── model/         <- Scripts to train models and apply models  
-    │   ├── predict_model.py
-    │   └── train_model.py
-    │
-    ├── evaluate/      <- Scripts to validate and apply the model to data  
-    │
-    ├── visualization/ <- Scripts to create exploratory and results oriented visualizations
-    │   └── visualize.py
-    │
-    └── common/        <- Scripts shared among other modules
+│   └── observations.csv    <- Stores the input-output pairs from the function evaluations.
+├── docs/                   <- Documentation and reference materials.
+├── models/                 <- Serialized models (if any).
+├── notebooks/              <- Jupyter notebooks for exploration.
+├── src/
+│   ├── ml/                 <- Main package for the project.
+│   │   ├── optimization.py <- Gaussian Process optimization logic.
+│   │   └── visualization.py<- Plotting functions (Mean, Uncertainty, EI).
+│   └── explore_script.py   <- Main script to run the exploration loop.
+├── tests/                  <- Automated tests for the code.
+└── README.md               <- The top-level README for developers using this project.
 ```
+
+### Libraries and Technologies
+-   **scikit-learn**: Used for `GaussianProcessRegressor`. Chosen for its ease of use and sufficient performance for the scale of this problem (small N).
+-   **scipy**: Used for `minimize` (L-BFGS-B) to optimize the acquisition function.
+-   **pandas**: Used for managing the observations data (CSV I/O).
+-   **matplotlib**: Used for visualizing the GP search space and acquisition function.
+
+### How to Run the Optimization
+1.  **Environment Setup**: Ensure your virtual environment is active and dependencies are installed.
+2.  **Run the Explorer**:
+    ```bash
+    export PYTHONPATH=$PYTHONPATH:$(pwd)/src
+    .venv/bin/python src/explore_script.py
+    ```
+3.  **Workflow**:
+    -   The script will load existing data from `data/observations.csv`.
+    -   It fits a Gaussian Process model to the data.
+    -   It displays a heatmap of the current model prediction, uncertainty, and Expected Improvement.
+    -   It suggests the next point to query (format: `0.123-0.456`).
+    -   You can then enter the result of the function evaluation to update the dataset.
