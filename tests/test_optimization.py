@@ -1,7 +1,7 @@
 
 import pytest
 import numpy as np
-from ml.optimization import GPOptimizer
+from ml.gp_optimizer import GPOptimizer
 
 def test_parse_input():
     optimizer = GPOptimizer()

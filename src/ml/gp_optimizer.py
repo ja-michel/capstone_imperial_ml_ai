@@ -1,7 +1,7 @@
 
 import numpy as np
 from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import Matern, RBF, ConstantKernel as C
+from sklearn.gaussian_process.kernels import Matern, RBF, ConstantKernel as C, WhiteKernel
 from scipy.stats import norm
 from scipy.optimize import minimize
 import typing
@@ -10,7 +10,7 @@ class GPOptimizer:
     def __init__(self, kernel=None, alpha=1e-10, n_restarts_optimizer=5):
         if kernel is None:
             # Standard kernel: Constant * Matern(nu=2.5) + Noise
-            self.kernel = C(1.0, (1e-3, 1e3)) * Matern(length_scale=[0.1, 0.1], length_scale_bounds=(1e-2, 1e2), nu=2.5)
+            self.kernel = C(1.0, (1e-3, 1e3)) * Matern(length_scale=[0.1, 0.1], length_scale_bounds=(1e-2, 1e2), nu=2.5) + WhiteKernel(noise_level_bounds=(1e-10, 1e1))
         else:
             self.kernel = kernel
             

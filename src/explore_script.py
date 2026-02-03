@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 import sys
-from ml.optimization import GPOptimizer
+from ml.gp_optimizer import GPOptimizer
 from ml.visualization import plot_gp_search_space
 
 from pathlib import Path
@@ -12,10 +12,21 @@ DATA_FILE = os.path.join(PROJECT_DIR, "data", "func2.csv")
 BOUNDS = np.array([[0.0, 0.999999], [0.0, 0.999999]])
 
 def load_data():
+    """
+    Load data from CSV file.
+    
+    Returns:
+        DataFrame with loaded data.
+    """
     print(f"Loading data from {DATA_FILE}")
     if not os.path.exists(DATA_FILE):
-        return pd.DataFrame(columns=["X1", "X2", "y"])
-    return pd.read_csv(DATA_FILE, nrows=10)
+        raise FileNotFoundError(f"Data file not found: {DATA_FILE}")
+    data = pd.read_csv(DATA_FILE)
+    if data.empty:
+        raise ValueError("Data file is empty.")
+    else:
+        data.columns = [f"x{i}" for i in range(len(data.columns) - 1)] + ["y"]
+    return data
 
 def save_data(df):
     df.to_csv(DATA_FILE, index=False)

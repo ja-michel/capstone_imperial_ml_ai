@@ -1,7 +1,7 @@
 
 import pytest
 import numpy as np
-from ml.optimization import GPOptimizer
+from ml.gp_optimizer import GPOptimizer
 from ml.visualization import plot_gp_search_space
 import matplotlib.pyplot as plt
 
