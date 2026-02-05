@@ -1,13 +1,27 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import plot, ion, show, draw
 import numpy as np
-
+from typing import Literal
 class PlotUtils:
    
+    def __init__(self):
+        self.plots = []
+        plt.ion()
    
-    @staticmethod
-    def scatter(X: np.ndarray, y: np.ndarray, figsize:tuple[int, int] = (8, 6), title: str = 'Scatter plots of X columns vs y', show_min_max: bool = True) -> None:
-        plt.figure(figsize=figsize)
+    def add_plot(self, plot):
+        self.plots.append(plot)
+
+    def show(self, which: Literal["all", "latest"] = "all"):
+        for plot in self.plots:
+            plot.draw()
+            plot.pause(0.5)
+
+    def scatter(self, X: np.ndarray, y: np.ndarray, figsize:tuple[int, int] = (8, 6), title: str = 'Scatter plots of X columns vs y', show_min_max: bool = True) -> None:
+        # plt.show()
+
+        rand_fig_num = np.random.randint(0, 100)
+        plt.figure(rand_fig_num, figsize=figsize)
         for i in range(X.shape[1]) if X.ndim > 1 else range(1):
             x = X if X.ndim == 1 else X[:, i]
             sns.scatterplot(x=x, y=y, label=f'X[:, {i}]', alpha=0.6, s=50)
@@ -21,7 +35,10 @@ class PlotUtils:
         plt.ylabel('y')
         plt.title(title)
         plt.legend()
-        plt.show()
+        # plt.draw()
+        # plt.pause(0.5)
+        self.add_plot(plt)
+        return plt
     
     @staticmethod
     def box(data: np.ndarray, figsize:tuple[int, int] = (8, 6), title: str = 'Box plots') -> None:

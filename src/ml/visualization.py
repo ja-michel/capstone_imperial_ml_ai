@@ -1,7 +1,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from .optimization import GPOptimizer
+from ml.models.model import GPOptimizer
 
 def plot_gp_search_space(optimizer: GPOptimizer, bounds: np.ndarray, xi: float = 0.01):
     """

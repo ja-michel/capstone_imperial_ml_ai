@@ -5,15 +5,13 @@ from sklearn.gaussian_process.kernels import Matern, RBF, ConstantKernel as C, W
 from scipy.stats import norm
 from scipy.optimize import minimize
 import typing
+from dataclasses import dataclass
+
+matern_kernel = C(1.0, (1e-3, 1e3)) * Matern(length_scale=[0.1, 0.1], length_scale_bounds=(1e-2, 1e2), nu=2.5) + WhiteKernel(noise_level_bounds=(1e-10, 1e1))
 
 class GPOptimizer:
     def __init__(self, kernel=None, alpha=1e-10, n_restarts_optimizer=5):
-        if kernel is None:
-            # Standard kernel: Constant * Matern(nu=2.5) + Noise
-            self.kernel = C(1.0, (1e-3, 1e3)) * Matern(length_scale=[0.1, 0.1], length_scale_bounds=(1e-2, 1e2), nu=2.5) + WhiteKernel(noise_level_bounds=(1e-10, 1e1))
-        else:
-            self.kernel = kernel
-            
+        self.kernel = kernel
         self.gp = GaussianProcessRegressor(
             kernel=self.kernel, 
             alpha=alpha, 
@@ -30,7 +28,7 @@ class GPOptimizer:
             parts = input_str.split('-')
             if len(parts) != 2:
                 raise ValueError
-            return np.array([float(parts[0]), float(parts[1])])
+            return np.array([float(p) for p in parts])
         except (ValueError, IndexError):
             raise ValueError(f"Invalid input format: '{input_str}'. Expected format 'float-float' (e.g. '0.1-0.2').")
 
@@ -40,10 +38,15 @@ class GPOptimizer:
         self.y_train = np.atleast_1d(y)
         self.gp.fit(self.X_train, self.y_train)
 
+    @property
+    def y_train_(self):
+        return self.gp.y_train_
+
+
     def predict(self, X: np.ndarray, return_std: bool = False):
         """Wrapper for GP prediction."""
         return self.gp.predict(X, return_std=return_std)
-
+ 
     def expected_improvement(self, X: np.ndarray, xi: float = 0.01) -> np.ndarray:
         """
         Computes the Expected Improvement at points X.
@@ -98,3 +101,4 @@ class GPOptimizer:
                 min_x = res.x           
                 
         return min_x.reshape(-1)
+
